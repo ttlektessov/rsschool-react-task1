@@ -15,7 +15,7 @@ class Search extends React.Component<SearchProps> {
           type="text"
           value={this.props.searchTerm}
           onChange={(e) => this.props.onSearchChange(e.target.value)}
-          placeholder="Search Star Wars characters..."
+          placeholder="Search Rick and Morty characters..."
           className="flex-1 p-2 border border-gray-300 rounded"
           disabled={this.props.isLoading}
         />

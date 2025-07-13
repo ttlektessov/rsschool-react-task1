@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import TopControls from './components/TopControls.tsx';
 import Results from './components/Results.tsx';
+import ErrorBoundary from './errorboundary/ErrorBoundary.tsx';
 
 interface AppState {
   searchTerm: string;
@@ -12,6 +13,7 @@ interface AppState {
   }>;
   isLoading: boolean;
   error: string | null;
+  shouldThrow: boolean;
 }
 
 class App extends React.Component<object, AppState> {
@@ -22,6 +24,7 @@ class App extends React.Component<object, AppState> {
       characters: [],
       isLoading: false,
       error: null,
+      shouldThrow: false,
     };
   }
 
@@ -63,6 +66,10 @@ class App extends React.Component<object, AppState> {
         });
       });
   };
+  throwError = () => {
+    this.setState({ shouldThrow: true });
+    throw new Error('This is a test error for ErrorBoundary');
+  };
 
   handleSearchChange = (term: string) => {
     this.setState({ searchTerm: term });
@@ -74,31 +81,36 @@ class App extends React.Component<object, AppState> {
     this.fetchCharacters();
   };
 
-  throwError = () => {
-    throw new Error('This is a test error for ErrorBoundary');
-  };
-
   render() {
+    if (this.state.shouldThrow) {
+      return (
+        <div>
+          <h1>Something went wrong.</h1>
+        </div>
+      );
+    }
     return (
-      <div className="container mx-auto p-4 max-w-6xl">
-        <h1 className="text-3xl font-bold mb-6">
-          Rick and Morty Character Search
-        </h1>
+      <ErrorBoundary>
+        <div className="container mx-auto p-4 max-w-6xl">
+          <h1 className="text-3xl font-bold mb-6">
+            Rick and Morty Character Search
+          </h1>
 
-        <TopControls
-          searchTerm={this.state.searchTerm}
-          onSearchChange={this.handleSearchChange}
-          onSearchSubmit={this.handleSearchSubmit}
-          isLoading={this.state.isLoading}
-          onThrowError={this.throwError}
-        />
+          <TopControls
+            searchTerm={this.state.searchTerm}
+            onSearchChange={this.handleSearchChange}
+            onSearchSubmit={this.handleSearchSubmit}
+            isLoading={this.state.isLoading}
+            onThrowError={this.throwError}
+          />
 
-        <Results
-          characters={this.state.characters}
-          isLoading={this.state.isLoading}
-          error={this.state.error}
-        />
-      </div>
+          <Results
+            characters={this.state.characters}
+            isLoading={this.state.isLoading}
+            error={this.state.error}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }
