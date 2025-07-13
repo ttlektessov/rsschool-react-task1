@@ -1,4 +1,5 @@
 import React from 'react';
+import CardList from './CardList';
 
 interface Character {
   name: string;
@@ -44,15 +45,7 @@ class Results extends React.Component<ResultsProps> {
 
     return (
       <>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {this.props.characters.map((character, index) => (
-            <div className="p-4 border border-gray-200 rounded-lg shadow-sm">
-              <h3 className="font-bold text-lg">{character.name}</h3>
-              <p>Birth Year: {character.birth_year}</p>
-              <p>Gender: {character.gender}</p>
-            </div>
-          ))}
-        </div>
+        return <CardList characters={characters} />;
       </>
     );
   }
