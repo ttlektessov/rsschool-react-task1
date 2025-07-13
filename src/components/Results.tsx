@@ -4,7 +4,7 @@ import Spinner from './Spinner';
 
 interface Character {
   name: string;
-  birth_year: string;
+  image: string;
   gender: string;
 }
 
@@ -40,7 +40,7 @@ class Results extends React.Component<ResultsProps> {
 
     return (
       <>
-        return <CardList characters={characters} />;
+        <CardList characters={characters} />
       </>
     );
   }

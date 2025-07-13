@@ -3,7 +3,7 @@ import Card from './Card';
 
 interface Character {
   name: string;
-  birth_year: string;
+  image: string;
   gender: string;
 }
 
